@@ -14,10 +14,13 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  struct bFLT_header header = read_header(fd);
-  validate_header(&header);
+  size_t file_len = get_file_size(fd);
 
-  printf("header valid\n");
+  struct bFLT_header header = read_header(fd);
+  validate_header(&header, file_len);
+
+  size_t bss_size = header.bss_end - header.data_end;
+  size_t alloc_size = file_len + bss_size;
 
   fclose(fd);
 
