@@ -13,6 +13,6 @@ void *mmap_new_bFLT(FILE *fd, struct bFLT_header *header);
 /**
  * apply a reloc table to the code.
  */
-void apply_reloc_table(void *code, struct bflt_reloc_table *reloc_table);
+void apply_reloc_table(void *loader_base, struct bflt_reloc_table *reloc_table);
 
 #endif

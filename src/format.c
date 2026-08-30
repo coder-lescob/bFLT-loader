@@ -105,6 +105,16 @@ void validate_header(struct bFLT_header *header, size_t file_size) {
     fprintf(stderr, "bss overlap with data\n");
     exit(EXIT_FAILURE);
   }
+  
+  if (header->data_end - header->data_start > 0)
+  if (header->entry < header->bss_end && header->entry >= header->data_end) {
+    // entry point would fall in allocated space for BSS section that is zeroed out in the current implementation.
+    /**
+     * TODO: support an entry point there and simply nudge the BSS pointer
+     */
+    fprintf(stderr, "entry after data section is not supported yet\nif you need support maybe open an issue\n");
+    exit(EXIT_FAILURE);
+  }
 }
 
 /**
@@ -122,7 +132,11 @@ struct bflt_reloc_table read_reloc_table(FILE *fd, struct bFLT_header *header) {
     perror("bflt entries allocation failed");
     exit(EXIT_FAILURE);
   }
-  fread((void *)entries, header->reloc_count, 1, fd);
+  fread((void *)entries, header->reloc_count * sizeof(struct bflt_reloc), 1, fd);
+
+  for (int i = 0; i < header->reloc_count; i++) {
+    entries[i].offset = ntohl(entries[i].offset);
+  }
 
   SAFE_SEEK(fd, 0, SEEK_SET);
 
