@@ -9,7 +9,7 @@ make build
 # install the binary in /usr/local/libexec/bFLT-loader
 sudo install -Dm755 build/bFLT-loader /usr/local/libexec/bflt-loader
 
-echo "executable copied successfully to /usr/local/libexec/bFLT-loader"
+echo "executable copied successfully to /usr/local/libexec/bflt-loader"
 
 # register the executable as a loader for bflt files
 printf '%s\n' ':bflt:M::bFLT::/usr/local/libexec/bflt-loader:' |
