@@ -33,8 +33,8 @@ int main(int argc, char **argv) {
   fclose(fd);
 
   // load the program
-  void (*entry)(void) = (void (*)(void))((char *)loader_base + header.entry);
-  entry();
+  void (*entry)(int, char**) = (void (*)(int, char**))((char *)loader_base + header.entry);
+  entry(argc - 1, argv + 1);
 
   return 0;
 }
