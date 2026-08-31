@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# exit when an error accures
+# exit when an error occures
 set -e
 
 # first build the project
